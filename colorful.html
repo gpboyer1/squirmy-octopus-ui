@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>彩色章鱼扭动效果演示（P5.js）</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+</head>
+
+<body>
+    <script>
+        let t = 0;
+
+        function setup() {
+            createCanvas(400, 400);
+            colorMode(HSB, 360, 100, 100, 100);
+            background(0, 0, 9);
+            noFill();
+        }
+
+        function draw() {
+            background(0, 0, 9);
+            t += PI / 20;
+
+            for (let i = 10000; i > 0; i--) {
+                drawColorfulOctopusPoint(i % 200, i / 55);
+            }
+        }
+
+        // 彩色章鱼点
+        function drawColorfulOctopusPoint(x, y) {
+            let k = 9 * cos(x / 8);
+            let e = y / 8 - 12.5;
+            let d = sq(mag(k, e)) / 99 + sin(t) / 6 + 0.5;
+
+            let q = 99 - e * sin(atan2(k, e) * 7) / d + k * (3 + cos(d * d - t) * 2);
+            let c = d / 2 + e / 69 - t / 16;
+
+            let px = q * sin(c) + 200;
+            let py = (q + 19 * d) * cos(c) + 200;
+
+            // 优化色彩布局
+            let hue = (c * 180 / PI + t * 40) % 360;
+            let sat = 80;
+            let bri = 90 - d * 30;
+            stroke(hue, sat, bri, 40);
+            point(px, py);
+        }
+    </script>
+</body>
+
+</html>

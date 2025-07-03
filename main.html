@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>章鱼扭动效果演示（P5.js）</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+</head>
+
+<body>
+    <script>
+        let t = 0;
+
+        function setup() {
+            createCanvas(400, 400);
+            stroke(400, 66); // 设置画笔颜色
+            background(9);   // 设置背景色
+        }
+
+        function draw() {
+            background(9);   // 每帧刷新背景
+            t += PI / 20;    // 时间推进
+
+            for (let i = 10000; i > 0; i--) {
+                drawOctopusPoint(i % 200, i / 55);
+            }
+        }
+
+        // 画章鱼的点
+        function drawOctopusPoint(x, y) {
+            // 计算极坐标参数
+            let k = 9 * cos(x / 8);
+            let e = y / 8 - 12.5;
+            let d = sq(mag(k, e)) / 99 + sin(t) / 6 + 0.5;
+
+            // 计算点的位置
+            let q = 99 - e * sin(atan2(k, e) * 7) / d + k * (3 + cos(d * d - t) * 2);
+            let c = d / 2 + e / 69 - t / 16;
+
+            // 转换为画布坐标
+            let px = q * sin(c) + 200;
+            let py = (q + 19 * d) * cos(c) + 200;
+
+            point(px, py);
+        }
+    </script>
+</body>
+
+</html>
